@@ -1,5 +1,5 @@
 from __future__ import annotations
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class IntegerRange:
@@ -34,6 +34,7 @@ class Visitor:
 
 
 class SlideLimitationValidator(ABC):
+    @abstractmethod
     def __init__(self, age: int, weight: int, height: int) -> None:
         self.age = age
         self.weight = weight
@@ -41,22 +42,28 @@ class SlideLimitationValidator(ABC):
 
 
 class ChildrenSlideLimitationValidator(SlideLimitationValidator):
+    def __init__(self, age: int, weight: int, height: int) -> None:
+        super().__init__(age, weight, height)
+
     age = IntegerRange(4, 14)
     weight = IntegerRange(20, 50)
     height = IntegerRange(80, 120)
 
 
 class AdultSlideLimitationValidator(SlideLimitationValidator):
+    def __init__(self, age: int, weight: int, height: int) -> None:
+        super().__init__(age, weight, height)
     age = IntegerRange(14, 60)
     weight = IntegerRange(50, 120)
     height = IntegerRange(120, 220)
 
 
 class Slide:
-    def __init__(self, name: str,
-                 limitation_class:
-                 callable(ChildrenSlideLimitationValidator
-                          | AdultSlideLimitationValidator)) -> None:
+    def __init__(
+            self, name: str,
+            limitation_class:
+            type[ChildrenSlideLimitationValidator
+                 | AdultSlideLimitationValidator]) -> None:
         self.name = name
         self.limitation_class = limitation_class
 
