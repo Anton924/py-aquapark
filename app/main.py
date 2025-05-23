@@ -1,5 +1,4 @@
 from __future__ import annotations
-from abc import ABC
 
 
 class IntegerRange:
@@ -33,7 +32,7 @@ class Visitor:
         self.height = height
 
 
-class SlideLimitationValidator(ABC):
+class SlideLimitationValidator:
     def __init__(self, age: int, weight: int, height: int) -> None:
         self.age = age
         self.weight = weight
